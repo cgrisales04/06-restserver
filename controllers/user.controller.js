@@ -1,4 +1,5 @@
 const { response, request } = require("express");
+const Usuario = require("../models/usuario");
 
 const user_get = (req = request, res = response) => {
   const { q, nombre = "No name", apikey } = req.query;
@@ -13,9 +14,11 @@ const user_get = (req = request, res = response) => {
 
 const user_post = (req = request, res = response) => {
   const body = req.body;
+  const usuario = new Usuario(body);
+
   res.json({
     msg: "POST - Controller User",
-    body,
+    usuario,
   });
 };
 
