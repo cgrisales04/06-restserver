@@ -28,11 +28,20 @@ const user_post = async (req = request, res = response) => {
   });
 };
 
-const user_put = (req = request, res = response) => {
-  const id = req.params.id;
+const user_put = async (req = request, res = response) => {
+  const { id } = req.params;
+  const { _id, password, google, correo, ...resto } = req.body;
+
+  if (password) {
+    const salt = bcryptjs.genSaltSync();
+    resto.password = bcryptjs.hashSync(password, salt);
+  }
+
+  const usuario = await Usuario.findByIdAndUpdate(id, resto);
+
   res.json({
     msg: "PUT - Controller User",
-    id,
+    usuario,
   });
 };
 

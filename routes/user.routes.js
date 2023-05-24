@@ -13,7 +13,16 @@ const { esRoleValido, existeEmail } = require("../helpers/db-validators");
 const router = Router();
 
 router.get("/", user_get);
-router.put("/:id", user_put);
+router.put(
+  "/:id",
+  [
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(existeUsuarioPorId),
+    check("rol").custom(esRoleValido),
+    validarCampos,
+  ],
+  user_put
+);
 router.post(
   "/",
   [
