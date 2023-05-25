@@ -3,15 +3,16 @@ const { response, request } = require("express");
 const Usuario = require("../models/usuario");
 const bcryptjs = require("bcryptjs");
 
-const user_get = (req = request, res = response) => {
-  const { q, nombre = "No name", apikey } = req.query;
+const user_get = async (req = request, res = response) => {
+  const { limite = 5, desde = 0 } = req.query;
+  const where = { estado: true };
 
-  res.json({
-    msg: "GET - Controller User",
-    q,
-    nombre,
-    apikey,
-  });
+  const [total, usuarios] = await Promise.all([
+    Usuario.countDocuments(where),
+    Usuario.find(where).skip(Number(desde)).limit(Number(limite)),
+  ]);
+
+  res.json({ total, usuarios });
 };
 
 const user_post = async (req = request, res = response) => {
@@ -37,17 +38,21 @@ const user_put = async (req = request, res = response) => {
     resto.password = bcryptjs.hashSync(password, salt);
   }
 
-  const usuario = await Usuario.findByIdAndUpdate(id, resto);
+  const usuario = await Usuario.findByIdAndUpdate(id, resto, { new: true });
 
-  res.json({
-    msg: "PUT - Controller User",
-    usuario,
-  });
+  res.json(usuario);
 };
 
-const user_delete = (req, res = response) => {
+const user_delete = async (req, res = response) => {
+  const { id } = req.params;
+  const userDisabled = await Usuario.findByIdAndUpdate(
+    id,
+    { state: false },
+    { new: true }
+  );
+
   res.json({
-    msg: "DELETE - Controller User",
+    userDisabled,
   });
 };
 
