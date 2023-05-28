@@ -56,16 +56,10 @@ const user_delete = async (req, res = response) => {
   });
 };
 
-const user_patch = (req, res = response) => {
-  res.json({
-    msg: "PATCH - Controller User",
-  });
-};
 
 module.exports = {
   user_get,
   user_put,
   user_post,
   user_delete,
-  user_patch,
 };

@@ -5,7 +5,6 @@ const {
   user_put,
   user_post,
   user_delete,
-  user_patch,
 } = require("../controllers/user.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
 const {
@@ -50,6 +49,5 @@ router.delete(
   ],
   user_delete
 );
-router.patch("/", user_patch);
 
 module.exports = router;
