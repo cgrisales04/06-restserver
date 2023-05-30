@@ -47,7 +47,7 @@ const user_delete = async (req, res = response) => {
   const { id } = req.params;
   const userDisabled = await Usuario.findByIdAndUpdate(
     id,
-    { state: false },
+    { estado: false },
     { new: true }
   );
 
@@ -55,7 +55,6 @@ const user_delete = async (req, res = response) => {
     userDisabled,
   });
 };
-
 
 module.exports = {
   user_get,
