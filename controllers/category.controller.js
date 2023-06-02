@@ -55,7 +55,7 @@ const category_put = async (req = request, res = response) => {
   const { _id, ...resto } = req.body;
 
   resto.nombre = resto.nombre.toUpperCase();
-  resto.usuario = req.usuario._id;
+  resto.usuario = req.user_auth._id;
   const categoria = await Categoria.findByIdAndUpdate(id, resto, { new: true });
 
   res.json(categoria);

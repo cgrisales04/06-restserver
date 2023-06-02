@@ -12,6 +12,7 @@ class Server {
       user: "/api/user",
       auth: "/api/auth",
       category: "/api/category",
+      product: "/api/product",
     };
 
     //Conexion a BD
@@ -43,6 +44,7 @@ class Server {
     this.app.use(this.paths.user, require("../routes/user.routes"));
     this.app.use(this.paths.auth, require("../routes/auth.routes"));
     this.app.use(this.paths.category, require("../routes/category.routes"));
+    this.app.use(this.paths.product, require("../routes/product.routes"));
   }
 
   listen() {
